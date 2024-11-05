@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hololive", "Hololive\Hololive.csproj", "{D1090952-710F-43BC-871B-339B2727D27A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IKA9ntCrypto", "IKA9ntCrypto\IKA9ntCrypto.csproj", "{D1090952-710F-43BC-871B-339B2727D27A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IKA9ntCrypto.CLI", "IKA9ntCrypto.CLI\IKA9ntCrypto.CLI.csproj", "{C49FF583-1219-4C15-B317-C8194B027B09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D1090952-710F-43BC-871B-339B2727D27A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1090952-710F-43BC-871B-339B2727D27A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1090952-710F-43BC-871B-339B2727D27A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C49FF583-1219-4C15-B317-C8194B027B09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C49FF583-1219-4C15-B317-C8194B027B09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C49FF583-1219-4C15-B317-C8194B027B09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C49FF583-1219-4C15-B317-C8194B027B09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
