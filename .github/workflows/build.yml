@@ -25,9 +25,9 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet publish --configuration Release
+      run: dotnet publish IKA9ntCrypto.CLI --configuration Release
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: IKA9ntCrypto
-        path: IKA9ntCrypto/bin/Release/net8.0/publish
+        path: IKA9ntCrypto.CLI/bin/Release/net8.0/publish
