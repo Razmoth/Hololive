@@ -53,8 +53,8 @@ public class OptionsBinder : BinderBase<Options>
         _keySize.SetDefaultValue(256);
         _derive.SetDefaultValue(DeriveType.PBKDF2);
 
-        _input.LegalFileNamesOnly();
-        _output.LegalFileNamesOnly();
+        _input.ExistingOnly();
+        _output.LegalFilePathsOnly();
     }
 
     protected override Options GetBoundValue(BindingContext bindingContext) => new()
