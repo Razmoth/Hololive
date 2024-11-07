@@ -21,6 +21,7 @@ public static class CommandLine
 
 public record Options
 {
+    public bool Extension { get; set; }
     public int KeySize { get; set; }
     public DeriveType Derive { get; set; }
     public DirectoryInfo? Input { get; set; }
@@ -30,6 +31,7 @@ public record Options
 
 public class OptionsBinder : BinderBase<Options>
 {
+    private readonly Option<bool> _extension;
     private readonly Option<int> _keySize;
     private readonly Option<DeriveType> _derive;
     private readonly Argument<DirectoryInfo> _input;
@@ -38,6 +40,7 @@ public class OptionsBinder : BinderBase<Options>
 
     public OptionsBinder(RootCommand rootCommand)
     {
+        rootCommand.Add(_extension = new("--ext", "Specify if extesnion should be used while generating salt."));
         rootCommand.Add(_keySize = new("--key_size", "Specify key size."));
         rootCommand.Add(_derive = new("--derive", "Specify derive type."));
         rootCommand.Add(_input = new("input", "Path to input directory."));
@@ -46,12 +49,17 @@ public class OptionsBinder : BinderBase<Options>
 
         _keySize.FromAmong("128", "256");
 
+        _extension.SetDefaultValue(false);
         _keySize.SetDefaultValue(256);
         _derive.SetDefaultValue(DeriveType.PBKDF2);
+
+        _input.LegalFileNamesOnly();
+        _output.LegalFileNamesOnly();
     }
 
     protected override Options GetBoundValue(BindingContext bindingContext) => new()
     {
+        Extension = bindingContext.ParseResult.GetValueForOption(_extension),
         KeySize = bindingContext.ParseResult.GetValueForOption(_keySize),
         Derive = bindingContext.ParseResult.GetValueForOption(_derive),
         Input = bindingContext.ParseResult.GetValueForArgument(_input),

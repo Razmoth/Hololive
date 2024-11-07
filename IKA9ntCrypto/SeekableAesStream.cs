@@ -17,26 +17,10 @@ public class SeekableAesStream : Stream
         set => _baseStream.Position = value;
     }
 
-    public SeekableAesStream(Stream stream, string password, byte[] salt, DeriveType derive, int keySize)
+    public SeekableAesStream(Stream stream, ICryptoTransform cryptoTransform)
     {
         _baseStream = stream;
-
-        DeriveBytes deriveBytes = derive switch
-        {
-            DeriveType.PBKDF1 => new PasswordDeriveBytes(password, salt, "SHA1", 100),
-            DeriveType.PBKDF2 => new Rfc2898DeriveBytes(password, salt, 1000, HashAlgorithmName.SHA1),
-            _ => throw new NotSupportedException()
-        };
-
-        using Aes aes = Aes.Create();
-
-        aes.KeySize = keySize;
-        aes.Mode = CipherMode.ECB;
-        aes.Padding = PaddingMode.None;
-        aes.Key = deriveBytes.GetBytes(keySize / 8);
-        aes.IV = new byte[0x10];
-
-        _cryptoTransform = aes.CreateEncryptor();
+        _cryptoTransform = cryptoTransform;
     }
 
     public override void Flush() => _baseStream.Flush();

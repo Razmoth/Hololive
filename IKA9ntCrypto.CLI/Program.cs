@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Security.Cryptography;
+using System.Text;
 
 namespace IKA9ntCrypto.CLI;
 public class Program
@@ -17,8 +18,24 @@ public class Program
             using FileStream inputFS = file.OpenRead();
             using FileStream outputFS = File.Open(outputPath, FileMode.Create);
 
-            var salt = Encoding.UTF8.GetBytes(Path.GetFileNameWithoutExtension(file.FullName));
-            using SeekableAesStream seekableAesStream = new(inputFS, o.Password!, salt, o.Derive, o.KeySize);
+            var salt = Encoding.UTF8.GetBytes(o.Extension ? Path.GetFileName(file.FullName) : Path.GetFileNameWithoutExtension(file.FullName));
+
+            DeriveBytes deriveBytes = o.Derive switch
+            {
+                DeriveType.PBKDF1 => new PasswordDeriveBytes(o.Password!, salt, "SHA1", 100),
+                DeriveType.PBKDF2 => new Rfc2898DeriveBytes(o.Password!, salt, 1000, HashAlgorithmName.SHA1),
+                _ => throw new NotSupportedException()
+            };
+
+            using Aes aes = Aes.Create();
+
+            aes.KeySize = o.KeySize;
+            aes.Mode = CipherMode.ECB;
+            aes.Padding = PaddingMode.None;
+            aes.Key = deriveBytes.GetBytes(o.KeySize / 8);
+            aes.IV = new byte[0x10];
+
+            using SeekableAesStream seekableAesStream = new(inputFS, aes.CreateEncryptor());
 
             seekableAesStream.CopyTo(outputFS);
 
