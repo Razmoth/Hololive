@@ -14,6 +14,7 @@ Arguments:
   <password>  password used for derive.
 
 Options:
+  --ext                     Specify if extesnion should be used while generating salt. [default: False]
   --key_size <128|256>      Specify key size. [default: 256]
   --derive <PBKDF1|PBKDF2>  Specify derive type. [default: PBKDF2]
   --version                 Show version information
